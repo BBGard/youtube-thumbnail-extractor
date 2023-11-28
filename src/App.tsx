@@ -3,7 +3,7 @@
  */
 import { useState } from 'react'
 import './App.css'
-import { Box, Typography, Button, Skeleton, ButtonGroup, OutlinedInput, Card, CardActions, CardContent, CardMedia, } from "@mui/material";
+import { Box, Typography, TextField, Button, Skeleton, ButtonGroup, OutlinedInput, Card, CardActions, CardContent, CardMedia, } from "@mui/material";
 
 function App() {
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -112,6 +112,7 @@ function App() {
         )}
 
         {thumbnailUrl && (
+          <>
           <CardActions>
             <Button
               fullWidth
@@ -124,7 +125,57 @@ function App() {
               Download
             </Button>
           </CardActions>
+          <CardActions>
+          <TextField
+            fullWidth
+            value={thumbnailUrl}
+            label="Thumbnail URL"
+            variant="outlined"
+          />
+        </CardActions>
+        <CardActions>
+        <ButtonGroup fullWidth orientation='vertical'>
+          <Button
+            sx={{
+              backgroundColor: "#6c63ff",
+              "&:hover": {
+                backgroundColor: "#4c47b3",
+              },
+              marginBottom: "1rem",
+            }}
+            fullWidth
+            variant="contained"
+            onClick={() => {
+              navigator.clipboard.writeText(thumbnailUrl);
+            }}
+            disabled={thumbnailUrl === ""}
+          >
+            Copy Link
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: "#6c63ff",
+              "&:hover": {
+                backgroundColor: "#4c47b3",
+              },
+            }}
+            fullWidth
+            variant="contained"
+            // Copy as html image tag
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `<img src="${thumbnailUrl}" alt="Image" />`
+              );
+            }}
+            disabled={thumbnailUrl === ""}
+          >
+            Copy as HTML
+          </Button>
+          </ButtonGroup>
+        </CardActions>
+        </>
         )}
+
 
         <form onSubmit={handleSubmit}>
           <CardActions>
